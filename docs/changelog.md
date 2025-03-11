@@ -61,6 +61,9 @@ As features stabilize some brief notes about them will accumulate here.
 * Preliminary support for ConEmu style progress escape sequences. See
   [pane:get_progress()](config/lua/pane/get_progress.md) for more information.
   #6581
+* [InputSelector](config/lua/keyassignment/InputSelector.md) now allows
+  setting `input_selector_label_bg` and `input_selector_label_fg` colors in
+  the `colors` section of your configuration.  Thanks to @mgpinf! #6682
 
 #### New
 * [wezterm.serde](config/lua/wezterm.serde/index.md) module for serialization
@@ -97,6 +100,20 @@ As features stabilize some brief notes about them will accumulate here.
 * [quick_select_remove_styling](config/lua/config/quick_select_remove_styling.md)
   option to make it easier to spot matches on colorful screens. Thanks to
   @mgpinf! #6683 #4022
+* `tmux -CC` support is now very usable. Thanks to @joexue! #6602 #336
+* [Confirmation](config/lua/keyassignment/Confirmation.md) key assignment
+  that can be used to show a confirmation prompt. Thanks to @mgpinf! #6707
+* [launcher_alphabet](config/lua/config/launcher_alphabet.md) option for
+  [ShowLauncherArgs](config/lua/keyassignment/ShowLauncherArgs.md).
+  Thanks to @mgpinf! #6677
+* [window_decorations](config/lua/config/window_decorations.md) now supports
+  `MACOS_USE_BACKGROUND_COLOR_AS_TITLEBAR_COLOR` to match the macOS window
+  titlebar background color to the terminal background color defined by
+  your configuration. Thanks to @Jay-Madden! #6558
+* [char_select_font](config/lua/config/char_select_font.md),
+  [command_palette_font](config/lua/config/command_palette_font.md), and
+  [pane_select_font](config/lua/config/pane_select_font.md) options to control
+  the fonts for those respective overlays/modals.  Thanks to @mgpinf! #6696
 
 #### Fixed
 * Race condition when very quickly adjusting font scale, and other improvements
@@ -191,6 +208,7 @@ As features stabilize some brief notes about them will accumulate here.
   @mgpinf! #6248 #5806 #5346
 * Deadlock when a domain detaches due to SSH timeout. Thanks to @joexue! #6749
   #6750
+* Panic when rewrapping very very long lines. #6729
 
 #### Updated
 * Bundled conpty.dll and OpenConsole.exe to build 1.22.250204002.nupkg
@@ -198,6 +216,7 @@ As features stabilize some brief notes about them will accumulate here.
 * Bundled libssh to 0.11.1
 * Bundled freetype to 2.13.3
 * Bundled Nerd Font Symbols font to v3.3.0
+* Bundled Noto Color Emoji font to 2.047
 * image crate to 0.25, which means that JPEG images are now decoded via
   [zune-jpeg](https://docs.rs/zune-jpeg/latest/zune_jpeg/), which improves
   handling of non-conforming jpeg images. #5365
