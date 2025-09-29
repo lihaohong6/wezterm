@@ -64,6 +64,9 @@ As features stabilize some brief notes about them will accumulate here.
 * [InputSelector](config/lua/keyassignment/InputSelector.md) now allows
   setting `input_selector_label_bg` and `input_selector_label_fg` colors in
   the `colors` section of your configuration.  Thanks to @mgpinf! #6682
+* `wezterm imgcat --hold` now avoids local echo and accepts pressing `Escape`,
+  `CTRL-C` and `CTRL-D` as various ways of exiting hold mode. Thanks to
+  @mgpinf! #6801
 
 #### New
 * [wezterm.serde](config/lua/wezterm.serde/index.md) module for serialization
@@ -114,6 +117,26 @@ As features stabilize some brief notes about them will accumulate here.
   [command_palette_font](config/lua/config/command_palette_font.md), and
   [pane_select_font](config/lua/config/pane_select_font.md) options to control
   the fonts for those respective overlays/modals.  Thanks to @mgpinf! #6696
+* Git branch and progress bar symbols have been added to
+  [custom_block_glyphs](config/lua/config/custom_block_glyphs.md). Thanks to
+  @BenBergman! #6328 #6873 #6875
+* [cell_widths](config/lua/config/cell_widths.md) option for explicit
+  control over cell widths. Thanks to @hamano! #6289 #6290
+* [kde_window_background_blur](config/lua/config/kde_window_background_blur.md) option
+  to enable window blur when running under KDE Plasma on Wayland systems.
+  Thanks to @psomani16k! #6905
+* [reverse_video_cursor_min_contrast](config/lua/config/reverse_video_cursor_min_contrast.md)
+  option. Thanks to @jameshurst! #6584 ?2861
+* [text_min_contrast_ratio](config/lua/config/text_min_contrast_ratio.md) to more generally
+  improve the contrast ratio for text in the terminal.
+* New `launcher_label_fg` and `launcher_label_bg` options for to customize
+  the [Launcher Menu](config/launch.md#the-launcher-menu). Thanks to @mgpinf!
+  #6796
+* [TabInformation](config/lua/TabInformation.md) now exposes `is_last_active` as
+  a boolean property to indicate whether a tab was the prior active tab.
+  Thanks to @masriomarm! #6895
+* Indicate support for OSC 52 (clipboard extensions) in Primary DA Response.
+  Thanks to @j4james! #7046
 
 #### Fixed
 * Race condition when very quickly adjusting font scale, and other improvements
@@ -209,10 +232,23 @@ As features stabilize some brief notes about them will accumulate here.
 * Deadlock when a domain detaches due to SSH timeout. Thanks to @joexue! #6749
   #6750
 * Panic when rewrapping very very long lines. #6729
+* CUP position parameters were mandatory when they should have been optional.
+  Thanks to @wojciech-graj! #6860
+* Long CSI sequences were not parsed correctly. Thanks to @jdugan6240! #5161
+  #6194
+* IBus IME working unreliably. Thanks to @pjm0616! #5125
+* Pixel aliasing issue when using
+  [window_content_alignment](config/lua/config/window_content_alignment.md) =
+  `Center`. Thanks to @juster-0! #6929 #6928 #6823
+* Passing a `SpawnCommand` to the `SwitchToWorkspace` assignment would ignore
+  `set_environment_variables`. Thanks to @vincentbesanceney! #6850 #6845
+* `libssh` based ssh sessions will now respect `ServerAliveInterval`. #4023
+* macOS: prevent infinite loop in `Services` menu validation. Thanks to @cpick!
+  #7098 #6738 #6833 #6864
 
 #### Updated
 * Bundled conpty.dll and OpenConsole.exe to build 1.22.250204002.nupkg
-* Bundled harfbuzz to 10.4.0
+* Bundled harfbuzz to 11.2.1
 * Bundled libssh to 0.11.1
 * Bundled freetype to 2.13.3
 * Bundled Nerd Font Symbols font to v3.3.0

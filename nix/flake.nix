@@ -25,7 +25,7 @@
       flake = false;
     };
     harfbuzz = {
-      url = "github:harfbuzz/harfbuzz/9.0.0";
+      url = "github:harfbuzz/harfbuzz/11.2.1";
       flake = false;
     };
     libpng = {
@@ -131,20 +131,27 @@
               --replace-fail 'hash hostnamectl 2>/dev/null' 'command type -P hostnamectl &>/dev/null'
           '';
 
+          # Disable cargo-auditable until https://github.com/rust-secure-code/cargo-auditable/issues/124 is fixed
+          auditable = false;
+
           preFixup =
-            lib.optionalString stdenv.isLinux ''
+            lib.optionalString stdenv.isLinux /* bash */ ''
               patchelf \
                 --add-needed "${pkgs.libGL}/lib/libEGL.so.1" \
                 --add-needed "${pkgs.vulkan-loader}/lib/libvulkan.so.1" \
                 $out/bin/wezterm-gui
             ''
-            + lib.optionalString stdenv.isDarwin ''
+            + lib.optionalString stdenv.isDarwin /* bash */ ''
               mkdir -p "$out/Applications"
               OUT_APP="$out/Applications/WezTerm.app"
               cp -r assets/macos/WezTerm.app "$OUT_APP"
               rm $OUT_APP/*.dylib
               cp -r assets/shell-integration/* "$OUT_APP"
-              ln -s $out/bin/{wezterm,wezterm-mux-server,wezterm-gui,strip-ansi-escapes} "$OUT_APP"
+              # macOS will only recognize our application bundle
+              # if the binaries are inside of it. Move them there
+              # and create symbolic links for them in bin/.
+              mv $out/bin/{wezterm,wezterm-mux-server,wezterm-gui,strip-ansi-escapes} "$OUT_APP"
+              ln -s "$OUT_APP"/{wezterm,wezterm-mux-server,wezterm-gui,strip-ansi-escapes} "$out/bin"
             '';
 
           postInstall = ''
@@ -228,7 +235,6 @@
             ]);
 
           LD_LIBRARY_PATH = libPath;
-          RUST_BACKTRACE = 1;
         };
 
         formatter = pkgs.nixfmt-rfc-style;

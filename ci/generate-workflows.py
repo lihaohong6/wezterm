@@ -137,7 +137,7 @@ class CacheStep(ActionStep):
 
 class SccacheStep(ActionStep):
     def __init__(self, name):
-        super().__init__(name, action="mozilla-actions/sccache-action@v0.0.7")
+        super().__init__(name, action="mozilla-actions/sccache-action@v0.0.9")
 
 
 class CheckoutStep(ActionStep):
@@ -1004,7 +1004,6 @@ TARGETS = [
     # Target(container="debian:8.11", continuous_only=True, bootstrap_git=True),
     # harfbuzz's C++ is too new for debian 9's toolchain
     # Target(container="debian:9.12", continuous_only=True, bootstrap_git=True),
-    Target(container="debian:10.3", continuous_only=True),
     Target(container="debian:11", continuous_only=True),
     Target(container="debian:12", continuous_only=True),
     Target(name="centos9", container="quay.io/centos/centos:stream9"),

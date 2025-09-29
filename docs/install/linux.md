@@ -100,8 +100,9 @@ hide:
     steps:
 
     ```console
-    $ curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /etc/apt/keyrings/wezterm-fury.gpg
-    $ echo 'deb [signed-by=/etc/apt/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
+    $ curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
+    $ echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
+    $ sudo chmod 644 /usr/share/keyrings/wezterm-fury.gpg
     ```
 
     Update your dependencies:
@@ -140,7 +141,6 @@ hide:
     |Ubuntu20    |[amd64]({{ ubuntu20_deb_stable }}) ||[amd64]({{ ubuntu20_deb_nightly }})| |
     |Ubuntu22    |[amd64]({{ ubuntu22_deb_stable }}) |[arm64]({{ ubuntu22_arm64_deb_stable}})|[amd64]({{ ubuntu22_deb_nightly }})|[arm64]({{ ubuntu22_arm64_deb_nightly}})|
     |Ubuntu24    |Nightly Only                       |Nightly Only                           |[amd64]({{ ubuntu24_deb_nightly }})|[arm64]({{ ubuntu24_arm64_deb_nightly}})|
-    |Debian10    |[amd64]({{ debian10_deb_stable }}) ||[amd64]({{ debian10_deb_nightly }})| |
     |Debian11    |[amd64]({{ debian11_deb_stable }}) ||[amd64]({{ debian11_deb_nightly }})| |
     |Debian12    |[amd64]({{ debian12_deb_stable }}) |[arm64]({{ debian12_arm64_deb_stable }})|[amd64]({{ debian12_deb_nightly }})|[arm64]({{ debian12_arm64_deb_nightly }}) |
 
@@ -302,6 +302,19 @@ hide:
         ]
     }
     ```
+
+    !!! note "Git must be available in $PATH before attempting install"
+
+        The Wezterm package uses Nix's `builtins.fetchGit` which depends on the `git`
+        binary being available in `$PATH` during the _evaluation_ phase (before building packages).
+
+        Git must be installed before attempting to install wezterm.
+
+        Note: `builtins.fetchGit` is used because of `cargoLock.allowBuiltinFetchGit` in `buildRustPackage` call.
+
+        (This is a known Nix issue, tracked in [nix#3533](https://github.com/NixOS/nix/issues/3533)
+        & [nix#9807](https://github.com/NixOS/nix/issues/9807))
+
 
     ### Flake
     

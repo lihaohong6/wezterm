@@ -1,8 +1,8 @@
 use crate::color::ColorPalette;
 use downcast_rs::{impl_downcast, Downcast};
-use termwiz::cell::UnicodeVersion;
-use termwiz::surface::{Line, SequenceNo};
 use wezterm_bidi::ParagraphDirectionHint;
+use wezterm_cell::UnicodeVersion;
+use wezterm_surface::{Line, SequenceNo};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum NewlineCanon {
@@ -191,6 +191,7 @@ pub trait TerminalConfiguration: Downcast + std::fmt::Debug + Send + Sync {
         UnicodeVersion {
             version: 9,
             ambiguous_are_wide: false,
+            cell_widths: None,
         }
     }
 
